@@ -1,8 +1,6 @@
 name: a53_package
 
-on:
-  schedule:
-    - cron: 0 21 * * *
+on: push
 #  push:
 #    branches: 
 #      - master
