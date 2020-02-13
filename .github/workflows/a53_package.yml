@@ -35,12 +35,14 @@ jobs:
           cd openwrt
           rm -f .config
           cp ../a53 .config
+          
     - name: Make download
       run: |
           cd openwrt
           make download -j8
           find dl -size -1024c -exec ls -l {} \;
           find dl -size -1024c -exec rm -f {} \;
+          
     - name: Single-thread compile
       run: |
           cd openwrt
