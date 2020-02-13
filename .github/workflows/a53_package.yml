@@ -36,7 +36,7 @@ jobs:
       run: |
           cd openwrt
           rm -f .config
-          cp ../x64-1907 .config
+          cp ../a53 .config
     - name: Make download
       run: |
           cd openwrt
