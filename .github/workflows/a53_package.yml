@@ -43,11 +43,34 @@ jobs:
           find dl -size -1024c -exec ls -l {} \;
           find dl -size -1024c -exec rm -f {} \;
           
-    - name: Single-thread compile
+    - name: Tool compile
       run: |
           cd openwrt
           make -j1 V=s tools/install
           make -j1 V=s toolchain/install
+
+    - name: Passwall compile
+      run: |
+          cd openwrt
           make -j1 V=s package/feeds/lienol/luci-app-passwall/compile
           make -j1 V=s package/feeds/lienol/luci-app-passwall/install
           make -j1 V=s package/index
+
+    - name: Assemble artifact
+      run: |
+          rm -rf ./artifact/
+          mkdir -p ./artifact/
+          find openwrt/bin/ -name "*passwall*" | xargs -i mv -f {} ./artifact/
+          find openwrt/bin/ -name "*tcping*" | xargs -i mv -f {} ./artifact/
+          find openwrt/bin/ -name "*brook*" | xargs -i mv -f {} ./artifact/
+          find openwrt/bin/ -name "*kcptun-client*" | xargs -i mv -f {} ./artifact/
+          find openwrt/bin/ -name "*chinadns-ng*" | xargs -i mv -f {} ./artifact/
+          find openwrt/bin/ -name "*dns2socks*" | xargs -i mv -f {} ./artifact/
+          find openwrt/bin/ -name "*v2ray-plugin*" | xargs -i mv -f {} ./artifact/
+          find openwrt/bin/ -name "*simple-obfs*" | xargs -i mv -f {} ./artifact/
+          
+    - name: Upload artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: OpenWrt Packages
+        path: ./artifact/
