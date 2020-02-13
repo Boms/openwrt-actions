@@ -46,6 +46,8 @@ jobs:
     - name: Single-thread compile
       run: |
           cd openwrt
+          make -j1 V=s tools/install
+          make -j1 V=s toolchain/install
           make -j1 V=s package/feeds/lienol/luci-app-passwall/compile
           make -j1 V=s package/feeds/lienol/luci-app-passwall/install
           make -j1 V=s package/index
